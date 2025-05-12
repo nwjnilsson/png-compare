@@ -1,0 +1,1 @@
+"white_rgb.png" "white_rgb.png" 100

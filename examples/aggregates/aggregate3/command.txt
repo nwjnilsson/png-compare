@@ -1,0 +1,1 @@
+Command used: ./bin/aggregate -i ../examples/comparisons -o ../examples/aggregates/aggregate3 -s more -t 98.0 -d mask 

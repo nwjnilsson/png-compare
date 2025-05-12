@@ -1,0 +1,1 @@
+Command used: ./bin/aggregate -i ../examples/comparisons -o ../examples/aggregates/aggregate2 -s more -t 95.0 -d hsv,rgb --exclude-inputs 

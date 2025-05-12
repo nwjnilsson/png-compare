@@ -1,0 +1,1 @@
+"one-cat_rgb.png" "one-cat-with-noise_rgb.png" 99.6253
