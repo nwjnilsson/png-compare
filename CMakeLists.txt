@@ -1,5 +1,9 @@
 cmake_minimum_required(VERSION 3.5)
 
+if(MSVC)
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>" CACHE STRING "" FORCE)
+endif()
+
 project(PNGCompare)
 
 # Set OpenCV build flags
