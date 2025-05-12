@@ -100,9 +100,9 @@ double compute_ssim_rgba(const cv::Mat& img1, const cv::Mat& img2)
   }
 
   // Split channels into separate r, g and b parts
-  const int channel_count{ img1.channels() };
-  cv::Mat   channels1[channel_count];
-  cv::Mat   channels2[channel_count];
+  const int            channel_count{ img1.channels() };
+  std::vector<cv::Mat> channels1(channel_count);
+  std::vector<cv::Mat> channels2(channel_count);
   cv::split(img1, channels1);
   cv::split(img2, channels2);
 
@@ -159,8 +159,8 @@ void compute_diff_and_store_result(const ResultData& data,
   // Write images
   const fs::path file1{ result_dir / std::string{ data.name1 + "_rgb.png" } };
   const fs::path file2{ result_dir / std::string{ data.name2 + "_rgb.png" } };
-  cv::imwrite(file1, *data.img1);
-  cv::imwrite(file2, *data.img2);
+  cv::imwrite(file1.string(), *data.img1);
+  cv::imwrite(file2.string(), *data.img2);
   cv::imwrite((result_dir / "absdiff_rgb.png").string(), absdiff_rgb);
   cv::imwrite((result_dir / "absdiff_hsv.png").string(), absdiff_hsv);
   cv::imwrite((result_dir / "threshold_mask.png").string(), mask);
@@ -197,11 +197,13 @@ int main(int argc, char* argv[])
   const cv::Mat img2{ cv::imread(argv[2]) };
   std::cout << "Computing SSIM...\n";
   const double     score{ 100.0 * compute_ssim_rgba(img1, img2) };
-  const ResultData data{ .name1 = fs::path(argv[1]).stem(), // ../a/foo.txt->foo
-                         .name2 = fs::path(argv[2]).stem(),
-                         .img1  = &img1,
-                         .img2  = &img2,
-                         .score = score };
+  const ResultData data{
+    .name1 = fs::path(argv[1]).stem().string(), // ../a/foo.txt->foo
+    .name2 = fs::path(argv[2]).stem().string(),
+    .img1  = &img1,
+    .img2  = &img2,
+    .score = score
+  };
 
   std::cout << "Computing deltas...\n";
   compute_diff_and_store_result(data, output_dir);
